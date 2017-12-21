@@ -8,15 +8,27 @@ class FilterButton extends React.Component {
     this.handleSelection = this.handleSelection.bind(this);
   }
   handleSelection() {
-    this.props.handler(this.props.record.name);
+    let newSelection;
+    if(this.props.selected) {
+      newSelection = '';
+    }
+    else {
+      newSelection = this.props.record.name;
+    }
+    this.props.handler(newSelection);
   }
   render() {
-    return (
-      <Button isHollow={! this.props.selected} onClick={this.handleSelection}>
-        {this.props.record.name}
-        <sub>({this.props.record.num})</sub>
-      </Button>
-    );
+    if (this.props.record.name) {
+      return (
+        <Button isHollow={! this.props.selected} onClick={this.handleSelection}>
+          {this.props.record.name}
+          <sub>({this.props.record.num})</sub>
+        </Button>
+      );
+    }
+    else {
+      return '';
+    }
   }
 }
 

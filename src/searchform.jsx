@@ -17,13 +17,11 @@ class SearchForm extends React.Component {
   }
   render() {
     return(
-      <Row>
-        <form onSubmit={this.handleSubmit}>
-          <Label>Keywords</Label>
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-          <Button isExpanded size={Sizes.LARGE} onSubmit={this.handleSubmit}>search</Button>
-        </form>
-      </Row>
+      <form onSubmit={this.handleSubmit}>
+        <Label>Keywords</Label>
+        <input type="text" value={this.state.value} onChange={this.handleChange} />
+        <Button isExpanded size={Sizes.LARGE} onSubmit={this.handleSubmit}>search</Button>
+      </form>
     );
   }
 }

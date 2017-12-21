@@ -27,9 +27,7 @@ class Categories extends React.Component {
     return (
       <div>
         <Label>Category</Label>
-        <ButtonGroup>
-          {this.renderCategories()}
-        </ButtonGroup>
+        {this.renderCategories()}
       </div>
     );
   }

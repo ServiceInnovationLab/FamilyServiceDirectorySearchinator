@@ -7,7 +7,7 @@ import 'foundation-sites/dist/css/foundation.css';
 import Categories from './category.jsx';
 import Regions from './regions.jsx';
 import SearchForm from './searchform.jsx';
-import SearchResults from './searchresult.jsx';
+import SearchResults from './searchresults.jsx';
 
 class App extends React.Component {
   constructor(props) {

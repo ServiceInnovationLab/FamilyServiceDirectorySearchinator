@@ -27,9 +27,7 @@ class Regions extends React.Component {
     return (
       <div>
         <Label>Region</Label>
-        <ButtonGroup>
-          {this.renderRegions()}
-        </ButtonGroup>
+        {this.renderRegions()}
       </div>
     );
   }
