@@ -1,5 +1,4 @@
 import React from 'react';
-import { Callout} from 'react-foundation';
 import { Link } from 'react-router-dom';
 
 class Service extends React.Component {
@@ -8,7 +7,7 @@ class Service extends React.Component {
   }
   render() {
     return (
-      <Callout>
+      <div>
         <Link to={this.props.record.FSD_ID}>
           <h3>{this.props.record.PROVIDER_NAME}</h3>
         </Link>
@@ -32,7 +31,7 @@ class Service extends React.Component {
           <dt>Service referrals</dt>
           <dd>{this.props.record.SERVICE_REFERRALS}</dd>
         </dl>
-      </Callout>
+      </div>
     );
   }
 }

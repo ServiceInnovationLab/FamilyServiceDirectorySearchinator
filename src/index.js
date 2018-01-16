@@ -1,39 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-
 import './index.css';
-import 'foundation-sites/dist/css/foundation.css';
-import Categories from './filters/category.jsx';
-import Regions from './filters/regions.jsx';
+import SearchFilters from './filters.jsx';
 import SearchForm from './searchform.jsx';
 import SearchResults from './searchresults.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {keyword: '', category: '', region: ''};
-    this.handleKeywordChange = this.handleKeywordChange.bind(this);
+    this.state = {keyword: '', category: '', region: '', location: '', address: ''};
+    this.handleSearchParams = this.handleSearchParams.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.handleRegionChange = this.handleRegionChange.bind(this);
-  }
-  handleRegionChange(region){
-    this.setState({region: region});
   }
   handleCategoryChange(category){
     this.setState({category: category});
   }
-  handleKeywordChange(keyword) {
-    this.setState({keyword: keyword});
+  handleSearchParams(new_state) {
+    this.setState(new_state);
   }
   render() {
     return (
       <div>
-        <h1>Whānau Services Search</h1>
-        <Categories selected={this.state.category} handler={this.handleCategoryChange} />
-        <Regions selected={this.state.region} handler={this.handleRegionChange} />
-        <SearchForm handler={this.handleKeywordChange} />
-        <SearchResults category={this.state.category} keyword={this.state.keyword} region={this.state.region} />
+        <h1>Find Whānau Services in your area</h1>
+        <SearchFilters
+          field='LEVEL_1_CATEGORY'
+          label='Topics'
+          selected={this.state.category}
+          handler={this.handleCategoryChange} />
+        <SearchForm handler={this.handleSearchParams} />
+        <SearchResults
+          keyword={this.state.keyword}
+          address={this.state.address}
+          longitude={this.state.longitude}
+          latitude={this.state.latitude}
+          category={this.state.category}
+          region={this.state.region} />
       </div>
     );
   }

@@ -2,8 +2,8 @@ import React from 'react';
 import {  Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
 class ServiceMapMarker extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {};
   }
   render() {
@@ -28,18 +28,17 @@ class ServiceMapMarker extends React.Component {
   }
 }
 class MapResults extends React.Component {
-  constructor() {
-    super();
-    this.state = { zoom: 6 };
+  constructor(props) {
+    super(props);
+    if(this.props.longitude && this.props.latitude) {
+      this.state = { centre: this.centre(), zoom: 12 };
+    }
+    else {
+      this.state = { centre: this.defaultCentre(), zoom: 5 };
+    }
   }
   centre() {
-
-    if(this.props.results.length > 0) {
-      if (this.props.results[0].LATITUDE && this.props.results[0].LONGITUDE) {
-        return [this.props.results[0].LATITUDE, this.props.results[0].LONGITUDE];
-      }
-    }
-    return this.defaultCentre();
+    return [this.props.latitude, this.props.longitude];
   }
   defaultCentre() {
     // roughly the centre of aotearoa
@@ -52,7 +51,7 @@ class MapResults extends React.Component {
   }
   render() {
     return (
-      <Map center={this.centre()} zoom={this.state.zoom}>
+      <Map center={this.state.centre} zoom={this.state.zoom}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'

@@ -1,14 +1,13 @@
 import React from 'react';
 import axios from 'axios';
-import { Label, ButtonGroup, Button } from 'react-foundation';
-// import FilterButton from './filterbuttons.jsx';
+import { Well, Nav, NavItem } from 'react-bootstrap';
 
 class SearchFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {records: []};
     this.resourceId = '35de6bf8-b254-4025-89f5-da9eb6adf9a0';
-    // this.fetchRecords();
+    this.fetchRecords(this.props.field);
   }
   fetchRecords(field) {
     let sql = encodeURI(`SELECT "${field}" as name, COUNT(*) as num FROM "${this.resourceId}" GROUP BY name ORDER BY name`);
@@ -25,12 +24,10 @@ class SearchFilters extends React.Component {
   }
   render() {
     return (
-      <div>
-        <Label>Region</Label>
-        <ButtonGroup>
-          {this.renderButtons()}
-        </ButtonGroup>
-      </div>
+      <Well>
+        {this.props.label}
+        <Nav bsStyle="tabs" activeKey={1} >{this.renderButtons()}</Nav>
+      </Well>
     );
   }
 }
@@ -51,13 +48,20 @@ class FilterButton extends React.Component {
     }
     this.props.handler(newSelection);
   }
+  className() {
+    if (this.props.selected) {
+      return 'primary';
+    }
+    return '';
+  }
   render() {
+
     if (this.props.record.name) {
       return (
-        <Button isHollow={! this.props.selected} onClick={this.handleSelection}>
+        <NavItem bsStyle={this.className()} active={this.props.selected} onClick={this.handleSelection}>
           {this.props.record.name}
           <sub>({this.props.record.num})</sub>
-        </Button>
+        </NavItem>
       );
     }
     else {
