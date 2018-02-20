@@ -66,11 +66,10 @@ class SearchResults extends React.Component {
   renderServices(record) {
     const results = this.state.results.map((record, i) => {
       let element = record, distance = [];
-      element.kms = this.distance(record.LATITUDE, record.LONGITUDE, this.state.userLat, this.state.userLon).toFixed(0);
+      element.kms = this.calculateDistance(record.LATITUDE, record.LONGITUDE, this.state.userLat, this.state.userLon).toFixed(0);
       distance.push({element: element});
       return record
     });
-    
     results.sort(function(a, b) {
       return a['kms'] - b['kms'];
     });
