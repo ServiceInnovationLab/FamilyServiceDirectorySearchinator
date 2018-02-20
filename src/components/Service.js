@@ -20,7 +20,6 @@ class Service extends Component {
     } = this.props.record;
     return (
       <div>
-        {kms}
         <Link to={FSD_ID}>
           <h3>{PROVIDER_NAME}</h3>
         </Link>

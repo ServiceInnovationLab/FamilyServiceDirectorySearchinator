@@ -79,9 +79,11 @@ class SearchResults extends React.Component {
       return a['kms'] - b['kms'];
     });
 
-    return results.map((record, i) =>
-      <Service key={'serv'+i} record={record} />
-    );
+    return results.map((record, i) => {
+      if(record.kms == 10160 || record.kms == 10168) {
+        return <Service key={'serv'+i} record={record} />
+      }
+    });
   }
 
   renderLoading() {
