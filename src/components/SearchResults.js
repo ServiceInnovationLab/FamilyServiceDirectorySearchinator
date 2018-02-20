@@ -45,9 +45,13 @@ class SearchResults extends React.Component {
     }
   }
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition(position => {
-      this.setState({userLat: position.coords.latitude, userLon: position.coords.latitude})
-    });
+    if("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.setState({userLat: position.coords.latitude, userLon: position.coords.latitude});
+      });
+    } else {
+      this.setState({userLat: 0, userLon: 0});
+    }
   }
   componentDidUpdate(prevProps /*, prevState*/) {
     // only update if data has changed
@@ -70,6 +74,7 @@ class SearchResults extends React.Component {
       distance.push({element: element});
       return record
     });
+
     results.sort(function(a, b) {
       return a['kms'] - b['kms'];
     });
