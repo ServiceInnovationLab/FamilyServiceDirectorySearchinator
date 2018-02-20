@@ -9,7 +9,7 @@ class SearchResults extends React.Component {
   constructor(props) {
     super(props);
     this.resourceId = '35de6bf8-b254-4025-89f5-da9eb6adf9a0';
-    this.state = {results: [], show_map: false};
+    this.state = {results: [], show_map: false, userLat: 0, userLon: 0};
   }
   toggleShowMap = () => {
     this.setState({'show_map': !this.state.show_map});
@@ -44,17 +44,42 @@ class SearchResults extends React.Component {
       this.setState({results: []});
     }
   }
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(position => {
+      this.setState({userLat: position.coords.latitude, userLon: position.coords.latitude})
+    });
+  }
   componentDidUpdate(prevProps /*, prevState*/) {
     // only update if data has changed
     if (prevProps !== this.props) {
       this.fetchResults();
     }
   }
-  renderServices() {
-    return this.state.results.map((record, i) =>
+
+  calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295; // Math.PI / 180
+    var c = Math.cos;
+    var a = 0.5 - c((lat2 - lat1) * p)/2 + c(lat1 * p) * c(lat2 * p) *  (1 - c((lon2 - lon1) * p))/2;
+    return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+  }
+
+  renderServices(record) {
+    const results = this.state.results.map((record, i) => {
+      let element = record, distance = [];
+      element.kms = this.distance(record.LATITUDE, record.LONGITUDE, this.state.userLat, this.state.userLon).toFixed(0);
+      distance.push({element: element});
+      return record
+    });
+    
+    results.sort(function(a, b) {
+      return a['kms'] - b['kms'];
+    });
+
+    return results.map((record, i) =>
       <Service key={'serv'+i} record={record} />
     );
   }
+
   renderLoading() {
     return (
       <div>

@@ -15,10 +15,12 @@ class Service extends Component {
       PHYSICAL_ADDRESS,
       DELIVERY_METHODS,
       COST_TYPE,
-      SERVICE_REFERRALS
+      SERVICE_REFERRALS,
+      kms
     } = this.props.record;
     return (
       <div>
+        {kms}
         <Link to={FSD_ID}>
           <h3>{PROVIDER_NAME}</h3>
         </Link>
