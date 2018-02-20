@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ServiceInnovationLab/FamilyServiceDirectorySearchinator.svg?branch=master)](https://travis-ci.org/ServiceInnovationLab/FamilyServiceDirectorySearchinator)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/ServiceInnovationLab/FamilyServiceDirectorySearchinator.png?columns=all)](https://waffle.io/ServiceInnovationLab/FamilyServiceDirectorySearchinator?utm_source=badge)
 
 This runs [on github pages](https://serviceinnovationlab.github.io/FamilyServiceDirectorySearchinator/)
