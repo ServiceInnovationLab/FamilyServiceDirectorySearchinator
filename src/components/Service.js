@@ -15,8 +15,7 @@ class Service extends Component {
       PHYSICAL_ADDRESS,
       DELIVERY_METHODS,
       COST_TYPE,
-      SERVICE_REFERRALS,
-      kms
+      SERVICE_REFERRALS
     } = this.props.record;
     return (
       <div>
