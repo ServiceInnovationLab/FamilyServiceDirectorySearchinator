@@ -1,0 +1,23 @@
+.list-stripped {
+  list-style: none;
+  padding-left: 0; }
+
+.list-inline {
+  display: inline-block; }
+
+.list-icon {
+  margin-bottom: 7px; }
+
+.selected {
+  background: #35a744;
+  color: #fff; }
+
+.list-icon > span {
+  display: inline-block;
+  margin-right: 10px; }
+
+@media (max-width: 425px) {
+  .nav {
+    display: none; } }
+
+/*# sourceMappingURL=Nav.css.map */

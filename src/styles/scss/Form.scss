@@ -1,0 +1,72 @@
+@import "./variables.css";
+
+$primary-text-color: #484848;
+$primary-color: #35a744;
+$secondary-color: #c4c4c4;
+$primary-background: #fff;
+
+form { margin: 25px 0 35px; }
+
+button {
+  background: $primary-background;
+  border: 1px solid $primary-color;
+  color: $primary-text-color;
+  display: inline-block;
+  text-decoration: none;
+  padding: 7px 10px;
+  font-size: inherit;
+  width: 100%;
+  margin: 7px 7px 0 0;
+  
+  @media (min-width: 426px) {
+    width: auto;
+  }
+}
+
+input,
+select {
+  padding: 7px;
+  font-size: inherit;
+  width: 100%;
+  margin: 3px 0;
+  border: 1px solid $secondary-color;
+}
+
+input[type=search] { -webkit-appearance: textfield; }
+
+.btn-toggle {
+  margin-bottom: 20px;
+}
+
+.address-finder {
+  width: 100%;
+  margin: 0 3px 7px;
+
+  li {
+    border: 1px solid $primary-color;
+    font-size: inherit;
+    padding: 7px;
+    border-bottom: 0;
+
+    &:last-child {
+      border-bottom: 1px solid $primary-color;
+    }
+
+    &:hover {
+      background-color: $primary-color;
+      color: $primary-background;
+      cursor: pointer;
+    }
+  }
+}
+
+.address-finder-input {
+  margin-bottom: 0;
+  position:relative;
+}
+
+@media (min-width: 426px) {
+  .filters {
+    select { display: none; }
+  }
+}
