@@ -10,12 +10,12 @@ export class ServiceInfo extends React.Component {
     this.props.loadResults(this.props.match.params.category, this.props.match.params.name);
   }
 
-  render(){ 
+  render(){
     const { match: { params: { name } } , results } = this.props;
-    
+
     const filteredResults = results
          .filter(item => item.FSD_ID === name);
-         
+
     return <div>
         <div className="container-fluid">
           <div className="service">
@@ -35,11 +35,11 @@ export class ServiceInfo extends React.Component {
         </div>
         <MapResults map_results={filteredResults} />
       </div>;
-  } 
+  }
 }
 
 
-export default connect( 
+export default connect(
   state => ({keyword: state.keyword, results: state.results}),
   actionCreators
   )(ServiceInfo);
