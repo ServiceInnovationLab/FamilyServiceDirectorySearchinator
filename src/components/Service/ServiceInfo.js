@@ -3,11 +3,20 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
 import MapResults from '../Map/MapResults';
 import { Link } from 'react-router-dom';
+import Sharebar from '../Service/Sharebar';
 
 export class ServiceInfo extends React.Component {
 
   componentDidMount() {
     this.props.loadResults(this.props.match.params.category, this.props.match.params.name);
+  }
+
+  providerNameLink(data) {
+    if(data.PROVIDER_WEBSITE_1){
+      return <a href={data.PROVIDER_WEBSITE_1} className="list-link">{data.PROVIDER_NAME}</a>;
+    }else{
+      return data.PROVIDER_NAME;
+    }
   }
 
   render(){
@@ -24,7 +33,7 @@ export class ServiceInfo extends React.Component {
             {filteredResults
               .map((i, key)  => (
                 <div key={key}>
-                  <h2>{i.PROVIDER_NAME}</h2>
+                  <h2>{this.providerNameLink(i)}</h2>
                   <p>{i.PHYSICAL_ADDRESS}</p>
                   <h4>{i.SERVICE_NAME}</h4>
                   <p>{i.SERVICE_DETAIL}</p>
@@ -34,6 +43,7 @@ export class ServiceInfo extends React.Component {
         </div>
       </div>
       <MapResults map_results={filteredResults} />
+      <div className="container-fluid"><Sharebar/></div>
     </div>;
   }
 }
