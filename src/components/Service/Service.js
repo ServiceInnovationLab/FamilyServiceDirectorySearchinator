@@ -8,24 +8,20 @@ import FaExternalLink from 'react-icons/lib/fa/external-link';
 
 class Service extends React.Component {
 
+  serviceDetailsItem(obj,iconin,valin){
+    obj.push({
+      icon: iconin,
+      val: valin
+    });
+    return obj;
+  }
+
   serviceDetailsBuilder(data){
     let obj = [];
-    if(data.PUBLISHED_PHONE_1) obj.push({
-      icon: <FaPhone />,
-      val: <a href={`tel:${data.PUBLISHED_PHONE_1}`}>{data.PUBLISHED_PHONE_1}</a>
-    });
-    if(data.PUBLISHED_CONTACT_EMAIL_1)  obj.push({
-      icon: <FaMail />,
-      val: <a href={`mailto:${data.PUBLISHED_CONTACT_EMAIL_1}`}>{data.PUBLISHED_CONTACT_EMAIL_1}</a>
-    });
-    if(data.PROVIDER_CONTACT_AVAILABILITY)  obj.push({
-      icon: <FaClock />,
-      val: data.PROVIDER_CONTACT_AVAILABILITY
-    });
-    if(data.PROVIDER_WEBSITE_1)  obj.push({
-      icon: <FaExternalLink />,
-      val: <a href={`${data.PROVIDER_WEBSITE_1}`} target="_blank">{data.PROVIDER_WEBSITE_1}</a>
-    });
+    if(data.PUBLISHED_PHONE_1) obj = this.serviceDetailsItem(obj,<FaPhone />,<a href={`tel:${data.PUBLISHED_PHONE_1}`}>{data.PUBLISHED_PHONE_1}</a>);
+    if(data.PUBLISHED_CONTACT_EMAIL_1)  obj = this.serviceDetailsItem(obj,<FaMail />,<a href={`mailto:${data.PUBLISHED_CONTACT_EMAIL_1}`}>{data.PUBLISHED_CONTACT_EMAIL_1}</a>);
+    if(data.PROVIDER_CONTACT_AVAILABILITY)  obj = this.serviceDetailsItem(obj,<FaClock />,data.PROVIDER_CONTACT_AVAILABILITY);
+    if(data.PROVIDER_WEBSITE_1)  obj = this.serviceDetailsItem(obj,<FaExternalLink />, <a href={`${data.PROVIDER_WEBSITE_1}`} target="_blank">{data.PROVIDER_WEBSITE_1}</a>);
     return obj;
   }
 
