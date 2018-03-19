@@ -10,13 +10,13 @@
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 0;
+  }
 
-    li {
-      padding: 0;
-      margin-left: 0;
-      margin-bottom: 0;
-      list-style: none;
-    }
+  li {
+    padding: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+    list-style: none;
   }
 
   p {
@@ -41,7 +41,7 @@
 
     &:link,
     &:visited {
-      color: $white !important;
+      color: $white;
       border-bottom: 1px dotted $black;
     }
   }
@@ -55,7 +55,7 @@
   margin-bottom: 1rem;
 }
 
-ul.footer-utility-nav {
+.footer-utility-nav {
   max-width: 270px;
   margin: 0 auto;
 
@@ -72,7 +72,7 @@ ul.footer-utility-nav {
 }
 
 @media screen and (min-width: 426px){
-  ul.footer-utility-nav {
+  .footer-utility-nav {
     margin: initial;
   }
 }

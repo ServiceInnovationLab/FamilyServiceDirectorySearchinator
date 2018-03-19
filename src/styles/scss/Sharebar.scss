@@ -1,7 +1,7 @@
 @import "./variables";
 
 .sharebar {
-  padding: 0 0 2rem 0;
+  padding: 0 0 2rem;
 
   p,
   ul {
@@ -9,7 +9,7 @@
   }
 }
 
-ul.sharebar-share {
+.sharebar-share {
   margin-left: 1rem;
   padding-left: 0;
 
@@ -23,13 +23,13 @@ ul.sharebar-share {
     text-decoration: none;
     padding-left: 1.5em;
     color: $primary-dark;
+  }
 
-    svg {
-      height: 1em;
-      width: 1em;
-      position: absolute;
-      left: 0;
-      top: 0.2rem;
-    }
+  svg {
+    height: 1em;
+    width: 1em;
+    position: absolute;
+    left: 0;
+    top: 0.15rem;
   }
 }
