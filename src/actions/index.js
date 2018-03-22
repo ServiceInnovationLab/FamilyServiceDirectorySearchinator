@@ -19,12 +19,13 @@ export function loadFilters(){
 }
 
 export function loadResults(category, keyword, addressLatLng) {
-
   let url = encodeURI(`${API_PATH}datastore_search?resource_id=${RESOURCE_ID}&fields=${FIELDS}&q=${q(keyword)}&distinct=true${filters(category)}`);
   let addressObj = Object.keys(addressLatLng ? addressLatLng : {none: 'none'});
   return (dispatch) => {
-    return axios.get(url).then((response)=>{
+    dispatch(loadingResults(true));
 
+    return axios.get(url).then((response)=>{
+      dispatch(loadingResults(false));
       if(addressObj.length === 2 && addressLatLng !== undefined) {
         dispatch(showResults(findNearMe(response.data.result.records, addressLatLng), category, keyword, addressLatLng));
       } else {
@@ -74,4 +75,12 @@ export function showResults(results, category, keyword, addressLatLng) {
     addressLatLng
   };
 }
+
+export function loadingResults(bool) {
+  return {
+    type: 'LOAD_RESULTS',
+    loading: bool
+  };
+}
+
 

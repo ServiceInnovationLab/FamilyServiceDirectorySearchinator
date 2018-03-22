@@ -34,17 +34,23 @@ class App extends Component {
           <input type="search" name="keyword" placeholder="Enter topic or organisation" />
           <AddressFinder data={this.props} />
           <button type="submit">Search</button>
-        </form>
-        <div>
-          {this.props.results.length > 0 &&
-            <button className="btn-toggle" onClick={() => {
-              this.setState({ showMap: !this.state.showMap}); }
-            }>{this.state.showMap ? 'Show List' : 'Toggle Map'}</button>
+          {this.props.itemsLoading && false &&
+            <i className="loader"><img src="loading.gif" alt="loading..." /></i>
           }
-          { this.state.showMap && <MapResults className="container-fluid" LatLng={this.props.addressLatLng} map_results={this.props.results} />}
-          { !this.state.showMap && this.props.results.map((data, key)=> <Service key={key} results={data} filter={this.props.name} />)}
+        </form>
+        <div className={'results' + (this.props.itemsLoading ? ' loading' : '')}>
+          {!this.props.itemsLoading && this.props.hasSearched &&
+            <p>Found {this.props.results.length} result{this.props.results.length !== 1 ? 's' : ''}
+              {this.props.results.length > 0 &&
+                <button className="btn-toggle" onClick={() => {
+                  this.setState({ showMap: !this.state.showMap}); }
+                }>{this.state.showMap ? 'Show List' : 'Toggle Map'}</button>
+              }
+            </p>
+          }
+          { !this.props.itemsLoading && this.state.showMap && <MapResults className="container-fluid" LatLng={this.props.addressLatLng} map_results={this.props.results} />}
+          { !this.props.itemsLoading && !this.state.showMap && this.props.results.map((data, key)=> <Service key={key} results={data} filter={this.props.name} />)}
         </div>
-
       </div>
     );
   }
@@ -57,7 +63,9 @@ function mapStateToProps(state) {
     showMap: state.showMap,
     keyword: state.keyword,
     category: state.category,
-    addressLatLng: state.addressLatLng
+    addressLatLng: state.addressLatLng,
+    itemsLoading: state.itemsLoading,
+    hasSearched: state.hasSearched
   };
 }
 
