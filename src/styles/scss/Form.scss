@@ -1,5 +1,5 @@
 @import "./variables.css";
-@import "./mixins.scss";
+@import "./mixins";
 
 $primary-text-color: #484848;
 $primary-color: #35a744;
@@ -9,19 +9,22 @@ $primary-background: #fff;
 form { margin: 25px 0 35px; }
 
 .loader {
-  margin:0.2em 0 0 0.2em;
+  margin: 0.2em 0 0 0.2em;
   vertical-align: bottom;
   display: inline-block;
   width: 33px;
   height: 33px;
-  img{
+
+  img {
     width: 33px;
     height: 33px;
   }
 }
+
 .loading {
-  background: transparent url('loading.gif') no-repeat center top;
+  background: transparent url("loading.gif") no-repeat center top;
   background-size: 33px 33px;
+
   div,button{
     @include transition(opacity 2s ease);
     opacity:0;
