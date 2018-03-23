@@ -22,6 +22,20 @@ class App extends Component {
     this.props.loadFilters();
   }
 
+  resultButton () {
+    if(this.props.results.length > 0){
+      return <button className="btn-toggle" onClick={() => {
+        this.setState({ showMap: !this.state.showMap}); }
+      }>{this.state.showMap ? 'Show List' : 'Toggle Map'}</button>;
+    }
+  }
+
+  resultCountButton () {
+    if(!this.props.itemsLoading && this.props.hasSearched){
+      return <p>Found {this.props.results.length} result{this.props.results.length !== 1 ? 's' : ''} {this.resultButton()} </p>;
+    }
+  }
+
   render() {
     return (
       <div className="container-fluid">
@@ -39,15 +53,7 @@ class App extends Component {
           }
         </form>
         <div className={'results' + (this.props.itemsLoading ? ' loading' : '')}>
-          {!this.props.itemsLoading && this.props.hasSearched &&
-            <p>Found {this.props.results.length} result{this.props.results.length !== 1 ? 's' : ''}
-              {this.props.results.length > 0 &&
-                <button className="btn-toggle" onClick={() => {
-                  this.setState({ showMap: !this.state.showMap}); }
-                }>{this.state.showMap ? 'Show List' : 'Toggle Map'}</button>
-              }
-            </p>
-          }
+          {this.resultCountButton()}
           { !this.props.itemsLoading && this.state.showMap && <MapResults className="container-fluid" LatLng={this.props.addressLatLng} map_results={this.props.results} />}
           { !this.props.itemsLoading && !this.state.showMap && this.props.results.map((data, key)=> <Service key={key} results={data} filter={this.props.name} />)}
         </div>

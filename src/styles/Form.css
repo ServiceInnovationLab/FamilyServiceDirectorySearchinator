@@ -3,7 +3,8 @@ form {
   margin: 25px 0 35px; }
 
 .loader {
-  margin: 0.2em 0 0 0.2em;
+  margin-top: 0.2em;
+  margin-left: 0.2em;
   vertical-align: bottom;
   display: inline-block;
   width: 33px;
@@ -15,12 +16,15 @@ form {
 .loading {
   background: transparent url("loading.gif") no-repeat center top;
   background-size: 33px 33px; }
-  .loading div, .loading button {
-    transition: opacity 2s;
+  .loading div,
+  .loading button {
     opacity: 0; }
 
 .results {
   min-height: 200px; }
+  .results div,
+  .results button {
+    transition: opacity 2s; }
 
 button {
   background: #fff;
