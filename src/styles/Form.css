@@ -16,11 +16,7 @@ form {
   background: transparent url("loading.gif") no-repeat center top;
   background-size: 33px 33px; }
   .loading div, .loading button {
-    -webkit-transition: opacity 2s ease;
-    -moz-transition: opacity 2s ease;
-    -ms-transition: opacity 2s ease;
-    -o-transition: opacity 2s ease;
-    transition: opacity 2s ease;
+    transition: opacity 2s;
     opacity: 0; }
 
 .results {
