@@ -25,13 +25,13 @@ form { margin: 25px 0 35px; }
   background: transparent url("loading.gif") no-repeat center top;
   background-size: 33px 33px;
 
-  div,button{
+  div,button {
     @include transition(opacity 2s ease);
     opacity:0;
   }
 }
 
-.results{
+.results {
   min-height: 200px;
 }
 

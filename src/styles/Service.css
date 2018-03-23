@@ -23,8 +23,14 @@
   .service dt::after {
     content: ":"; }
   .service dd {
-    margin: 0 0 7px 160px;
-    padding: 0 0 0 0.5em; }
+    margin-bottom: 7px;
+    margin-left: 160px;
+    margin-right: 0;
+    margin-top: 0;
+    padding-bottom: 0;
+    padding-left: 0.5em;
+    padding-right: 0;
+    padding-top: 0; }
 
 .service-details {
   padding-left: 25px; }
