@@ -20,7 +20,7 @@
     "react-scripts": "1.1.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "sinon": "^4.3.0"
+    "sinon": "^5.0.0"
   },
   "scripts": {
     "predeploy": "npm run build",
