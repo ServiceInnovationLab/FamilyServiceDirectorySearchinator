@@ -54,5 +54,7 @@ a {
   .search-result-hero p {
     margin-bottom: 3px;
     margin-top: 0; }
+  .search-result-hero ul {
+    margin-bottom: 0; }
 
 /*# sourceMappingURL=Service.css.map */
