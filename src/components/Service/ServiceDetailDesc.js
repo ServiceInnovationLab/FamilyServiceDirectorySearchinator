@@ -14,7 +14,7 @@ class ServiceDetailDesc extends Component {
               {data.DELIVERY_METHODS && <li><b>Delivery Methods:</b> {data.DELIVERY_METHODS}</li>}
               {data.SERVICE_REFERRALS && <li><b>Service Referrals:</b> {data.SERVICE_REFERRALS}</li>}
               {data.COST_DESCRIPTION && <li><b>Cost:</b>
-                {data.COST_TYPE && <span> {data.COST_TYPE}<br /></span>}
+                {data.COST_TYPE && <span> {data.COST_TYPE}. </span>}
                 {data.COST_DESCRIPTION}</li>
               }
             </ul>

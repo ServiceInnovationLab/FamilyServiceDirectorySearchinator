@@ -43,14 +43,6 @@ describe('ServiceContactDetail', () => {
     expect(uls.length).toBe(2);
   });
 
-  it('it will render three li if three property is supplied', () => {
-    props.email = 'email@govt.nz';
-    props.phone = '0800 000 000';
-    props.hours = 'All the time';
-    const uls = contactDetail().find('li');
-    expect(uls.length).toBe(3);
-  });
-
   it('it will render two anchor tags if all properties are supplied', () => {
     props.email = 'email@govt.nz';
     props.hours = 'All the time';

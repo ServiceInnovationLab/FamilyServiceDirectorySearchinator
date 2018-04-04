@@ -4,7 +4,7 @@ import axios from 'axios';
 import '../../styles/ServiceDetail.css';
 import ServiceCategories from './ServiceCategories';
 import ServiceDetailDesc from './ServiceDetailDesc';
-import ServiceContactLocation from './ServiceContactLocation';
+import ServiceContactDetail from './ServiceContactDetail';
 
 class ServiceDetail extends Component {
 
@@ -66,7 +66,7 @@ class ServiceDetail extends Component {
     return (
       <div className="service-details" ref="myRef">
         {this.props.results.ORGANISATION_PURPOSE && <div><p>{this.props.results.ORGANISATION_PURPOSE}</p></div>}
-        <ServiceContactLocation classification={this.props.results.PROVIDER_CLASSIFICATION} address={this.props.results.PHYSICAL_ADDRESS} website={this.props.results.PROVIDER_WEBSITE_1} />
+        <ServiceContactDetail locations={true} classification={this.props.results.PROVIDER_CLASSIFICATION} address={this.props.results.PHYSICAL_ADDRESS} website={this.props.results.PROVIDER_WEBSITE_1} />
         <div className={(this.props.itemsLoading ? ' loading' : '')}>
           <ServiceCategories displayServiceDetails={this.displayServiceDetails} category={this.state.category} categories={this.state.categories} serviceId={this.props.results.FSD_ID} />
           {this.props.loadimmediately && <ServiceDetailDesc services={this.state.services} />}
