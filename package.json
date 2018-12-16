@@ -18,7 +18,7 @@
     "react-leaflet": "^1.9.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.5",
+    "react-scripts": "^2.1.1",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
     "sinon": "^6.0.0"
@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
-    "babel-jest": "^23.0.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
@@ -51,5 +50,11 @@
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/test-setup.js"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

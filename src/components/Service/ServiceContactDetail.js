@@ -26,8 +26,12 @@ class ServiceContactDetail extends React.Component {
 
   serviceLocationsBuilder(){
     let obj = [];
-    if(this.props.address)        this.serviceDetailsItem(obj,<FaMapMarker />,this.props.address);
-    if(this.props.website)        this.serviceDetailsItem(obj,<FaExternalLink />, <a href={`${this.props.website}`} target="_blank">{this.props.website}</a>);
+    if(this.props.address) this.serviceDetailsItem(obj,<FaMapMarker />,this.props.address);
+    if(this.props.website) this.serviceDetailsItem(obj,
+      <FaExternalLink />,
+      <a href={`${this.props.website}`} target="_blank" rel="noopener noreferrer">
+      {this.props.website}
+      </a>);
     if(this.props.classification) this.serviceDetailsItem(obj,<FaFolderOpen />, this.props.classification);
     return obj;
   }
