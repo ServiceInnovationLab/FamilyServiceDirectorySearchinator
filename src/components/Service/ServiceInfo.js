@@ -12,23 +12,23 @@ export class ServiceInfo extends React.Component {
   componentDidMount() {
     this.props.loadService({
       category: this.props.match.params.category
-    },this.props.match.params.name);
+    }, this.props.match.params.name);
     window.scrollTo(0, 0);
   }
 
-  render(){
+  render() {
     /* results is undefined when page loaded directly */
-    const { match: { params: { name } } , result } = this.props;
+    const { match: { params: { name } }, result } = this.props;
     const filteredResults = result.filter(item => item.FSD_ID === name);
 
     return <div>
       <div className="container-fluid">
-        <div className={'service-info' + (filteredResults.length === 0 ? ' loading':'')}>
+        <div className={'service-info' + (filteredResults.length === 0 ? ' loading' : '')}>
           <Route render={() => (
-            <Link to={'/'+(this.props.searchVars.category ? 'category/'+encodeURIComponent(decodeURIComponent(this.props.searchVars.category)):'')} onClick={()=> { window.scrollTo(0,0);}} >Go back</Link>
+            <Link to={'/' + (this.props.searchVars.category ? 'category/' + encodeURIComponent(decodeURIComponent(this.props.searchVars.category)) : '')} onClick={() => { window.scrollTo(0, 0); }} >Go back</Link>
           )} />
           <ul className="list-stripped">
-            {filteredResults.map((i, key)  => (
+            {filteredResults.map((i, key) => (
               <div key={key}>
                 <div className="search-result-hero">
                   <h2>{i.PROVIDER_NAME}</h2>
@@ -48,6 +48,6 @@ export class ServiceInfo extends React.Component {
 
 
 export default connect(
-  state => ({result: state.result,searchVars: state.searchVars}),
+  state => ({ result: state.result, searchVars: state.searchVars }),
   actionCreators
 )(ServiceInfo);

@@ -6,7 +6,7 @@ class ServiceDetailDesc extends Component {
   render() {
     return (
       <div className="service-detail">
-        {(this.props.services.length > 0) && this.props.services.map((data,index)=>
+        {(this.props.services.length > 0) && this.props.services.map((data, index) =>
           <div key={index}>
             <h3>{data.SERVICE_NAME}</h3>
             <ul className="list-stripped">
