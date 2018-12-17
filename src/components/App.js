@@ -20,7 +20,8 @@ class App extends Component {
     this.state = {
       showMap: false,
       latlng: [],
-      keyword: ''
+      keyword: '',
+      resultLimit: 10
     };
     this.resultButton = this.resultButton.bind(this);
     this.resultCountButton = this.resultCountButton.bind(this);
@@ -29,6 +30,7 @@ class App extends Component {
     this.formSubmit = this.formSubmit.bind(this);
     this.correctLatLng = this.correctLatLng.bind(this);
     this.resetForm = this.resetForm.bind(this);
+    this.extendResultLimit = this.extendResultLimit.bind(this);
   }
 
   debounce(func, wait, immediate) {
@@ -69,29 +71,27 @@ class App extends Component {
   }
 
   resultCountButton() {
-    if (!this.props.itemsLoading && this.props.hasSearched) {
+    const { itemsLoading, hasSearched, noSearchVars } = this.props;
+
+    if (!itemsLoading && hasSearched) {
       return (
         <p className="results-desc">
-          {this.props.noSearchVars && (
-            <span>No search parameters supplied</span>
-          )}
-          {!this.props.noSearchVars && this.resultCountButtonText()}
-          {!this.props.noSearchVars && this.resultButton()}
+          {noSearchVars && <span>No search parameters supplied</span>}
+          {!noSearchVars && this.resultCountButtonText()}
+          {!noSearchVars && this.resultButton()}
         </p>
       );
     }
   }
 
   resultCountButtonText() {
-    let desc = 'Found ' + this.props.results.length + ' ';
-    if (
-      this.props.totalResults &&
-      this.props.results.length === 100 &&
-      this.props.totalResults * 1 > 100
-    ) {
-      desc += 'of ' + this.props.totalResults * 1 + ' ';
+    const { results, totalResults } = this.props;
+    const { resultLimit } = this.state;
+    let desc = `Found ${results.length < resultLimit ? results.length : resultLimit} `;
+    if (totalResults && results.length === 100 && totalResults > 100) {
+      desc += `of ${totalResults} `;
     }
-    desc += 'result' + (this.props.totalResults * 1 !== 1 ? 's' : '');
+    desc += `result${totalResults > 1 ? 's' : ''}`;
     return desc;
   }
 
@@ -155,17 +155,34 @@ class App extends Component {
     });
   }
 
+  extendResultLimit(e) {
+    e.preventDefault();
+    this.setState({ resultLimit: this.state.resultLimit + 10 });
+  }
+
   render() {
+    const {
+      filters,
+      searchVars,
+      loadResults,
+      noSearchVars,
+      itemsLoading,
+      hasSearched,
+      results,
+      changeCategory
+    } = this.props;
+    const { keyword, showMap, resultLimit } = this.state;
+
     return (
       <div className="container-fluid">
         <Filters
-          filters={this.props.filters}
-          searchVars={this.props.searchVars}
-          loadResults={this.props.loadResults}
+          filters={filters}
+          searchVars={searchVars}
+          loadResults={loadResults}
         />
         <form className="form" onSubmit={e => this.formSubmit(e)}>
           <input
-            value={this.state.keyword}
+            value={keyword}
             type="search"
             name="keyword"
             onBlur={this.keywordBlur.bind(this)}
@@ -174,22 +191,22 @@ class App extends Component {
             placeholder="Enter topic or organisation"
           />
           <AddressFinder
-            noSearchVars={this.props.noSearchVars}
-            loading={this.props.itemsLoading}
-            loadResults={this.props.loadResults}
-            searchVars={this.props.searchVars}
-            radius={this.props.searchVars.radius}
+            noSearchVars={noSearchVars}
+            loading={itemsLoading}
+            loadResults={loadResults}
+            searchVars={searchVars}
+            radius={searchVars.radius}
           />
-          {this.props.searchVars.addressLatLng &&
-          Object.keys(this.props.searchVars.addressLatLng).length !== 0 && (
+          {searchVars.addressLatLng &&
+          Object.keys(searchVars.addressLatLng).length !== 0 && (
             <Proximity
               handler={this.radiusChange.bind(this)}
-              radius={this.props.searchVars.radius}
+              radius={searchVars.radius}
             />
           )}
           <button type="submit">Search</button>
-          {!this.props.noSearchVars &&
-          this.props.hasSearched && (
+          {!noSearchVars &&
+          hasSearched && (
             <Route
               render={({ history, location }) => (
                 <button
@@ -205,31 +222,36 @@ class App extends Component {
             />
           )}
         </form>
-        <div
-          className={'results' + (this.props.itemsLoading ? ' loading' : '')}
-        >
+        <div className={'results' + (itemsLoading ? ' loading' : '')}>
           {this.resultCountButton()}
-          {!this.props.itemsLoading &&
-          this.state.showMap && (
+          {!itemsLoading &&
+          showMap && (
             <MapResults
               className="container-fluid"
-              LatLng={this.props.searchVars.addressLatLng}
-              map_results={this.props.results}
+              LatLng={searchVars.addressLatLng}
+              map_results={results}
             />
           )}
-          {!this.props.itemsLoading &&
-            !this.state.showMap &&
-            this.props.results.map((data, index) => (
-              <LazyLoad height={280} key={index}>
-                <Service
-                  results={data}
-                  changeCategory={this.props.changeCategory}
-                  searchVars={this.props.searchVars}
-                  serviceId={data.FSD_ID}
-                  loadResults={this.props.loadResults}
-                />
-              </LazyLoad>
-            ))}
+          {!itemsLoading &&
+            !showMap &&
+            results.map((data, index) => {
+              if (index < resultLimit) {
+                return (
+                  <LazyLoad height={280} key={index}>
+                    <Service
+                      results={data}
+                      changeCategory={changeCategory}
+                      searchVars={searchVars}
+                      serviceId={data.FSD_ID}
+                      loadResults={loadResults}
+                    />
+                  </LazyLoad>
+                );
+              }
+            })}
+          {results.length > resultLimit && (
+            <button onClick={e => this.extendResultLimit(e)}>Show More</button>
+          )}
         </div>
         <Sharebar />
       </div>
