@@ -13,7 +13,7 @@ import '../styles/Form.css';
 import Proximity from './Forms/Proximity';
 
 let inputchanged = false;
-// top level comment to test lgtm commit bug
+
 class App extends Component {
   constructor() {
     super();
