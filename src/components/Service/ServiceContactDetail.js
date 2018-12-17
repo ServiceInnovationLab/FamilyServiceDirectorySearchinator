@@ -30,7 +30,7 @@ class ServiceContactDetail extends React.Component {
     if (this.props.website) this.serviceDetailsItem(obj,
       <FaExternalLink />,
       <a href={`${this.props.website}`} target="_blank" rel="noopener noreferrer">
-      {this.props.website}
+        {this.props.website}
       </a>);
     if (this.props.classification) this.serviceDetailsItem(obj, <FaFolderOpen />, this.props.classification);
     return obj;
