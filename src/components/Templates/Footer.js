@@ -4,12 +4,12 @@ import '../../styles/Footer.css';
 
 class Footer extends React.Component {
 
-  displayGovtFooter(){
+  displayGovtFooter() {
     /* Possible site configuration setting to be set up if site is hosted on govt.nz domain */
     return false;
   }
 
-  render(){
+  render() {
     return (
       <div className="footer" aria-label="Footer" role="contentinfo">
         <div className="container">
