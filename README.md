@@ -27,4 +27,3 @@ to run a development server:
 ```
 npm start
 ```
-
