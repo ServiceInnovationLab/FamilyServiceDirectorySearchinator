@@ -19,7 +19,7 @@ export class ServiceInfo extends React.Component {
   render(){
     /* results is undefined when page loaded directly */
     const { match: { params: { name } } , result } = this.props;
-    const filteredResults = result.filter(item => item.FSD_ID === name);
+    const filteredResults = result.filter(item => item.FSD_ID === Number(name))
 
     return <div>
       <div className="container-fluid">
