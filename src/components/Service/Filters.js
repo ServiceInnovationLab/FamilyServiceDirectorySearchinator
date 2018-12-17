@@ -30,9 +30,9 @@ class Filters extends React.Component {
 
   render(){
     return (
-      <div className={'filters'+(this.props.filters.length === 0 ? ' loading' : '') }>
+      <div className={'filters'+(this.props.filters ? '' : ' loading') }>
         <nav className="nav">
-          {this.props.filters.map((data,index) => {
+          {this.props.filters && this.props.filters.map((data,index) => {
             return (<Route key={index} render={({ history}) => (
               <button className={this.props.searchVars.category === data.name ? 'selected'  : ''} key={data.num}
                 onClick={()=> {
@@ -48,7 +48,7 @@ class Filters extends React.Component {
             this.categoryChange(this.props.searchVars.category === event.target.value ? '' : event.target.value);
           }}>
             <option name="filters" value="" defaultValue>-- Select Category --</option>
-            {this.props.filters.map(data => {
+            {this.props.filters && this.props.filters.map(data => {
               return (<option key={data.num} name="filters">{data.name}</option>);
             })}</select>)} />
       </div>

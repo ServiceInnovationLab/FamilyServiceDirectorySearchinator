@@ -1,22 +1,28 @@
+// Modules
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
-import AppCon from './container/app-container';
-import ServiceInfo from './components/Service/ServiceInfo';
-import Footer from './components/Templates/Footer';
-// import { createStore, applyMiddleware, compose } from 'redux';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import reducers from './reducers/index';
 import { HashRouter, Route, Switch } from 'react-router-dom';
+
+// Styles
+import './styles/index.css';
+
+// Local components
+import AppCon from './container/app-container';
+import ServiceInfo from './components/Service/ServiceInfo';
+import Footer from './components/Templates/Footer';
+
+// Data
+import reducers from './reducers/index';
 
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 const store = createStore(reducers, applyMiddleware(thunk));
 
 class App extends React.Component {
-  render(){
+  render() {
     return (
       <HashRouter>
         <div>
@@ -33,5 +39,10 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
 ReactDOM.render(<Footer />, document.getElementById('footer'));

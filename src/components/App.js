@@ -1,134 +1,158 @@
-import React, { Component } from 'react';
+// Modules
+import React, { Component, Fragment } from 'react';
 import { Route } from 'react-router-dom';
-import {connect} from 'react-redux';
-import * as actionCreators from '../actions/index';
-import MapResults from './Map/MapResults';
-import AddressFinder from './Forms/AddressFinder';
+import { connect } from 'react-redux';
 import LazyLoad from 'react-lazyload';
-import Filters from './Service/Filters';
-import Service from '../components/Service/Service';
-import Sharebar from '../components/Social/Sharebar';
+
+// Styles
 import '../styles/Nav.css';
 import '../styles/Form.css';
-import Proximity from './Forms/Proximity';
 
-let inputchanged = false;
+// Local components
+import MapResults from './Map/MapResults';
+import AddressFinder from './Forms/AddressFinder';
+import Service from '../components/Service/Service';
+import Sharebar from '../components/Social/Sharebar';
+import Proximity from './Forms/Proximity';
+import Filters from './Service/Filters';
+
+// Data
+import * as actionCreators from '../actions/index';
 
 class App extends Component {
+  state = {
+    showMap: false,
+    latlng: [],
+    keyword: '',
+    inputchanged: false
+  };
 
-  constructor() {
-    super();
-    this.state = {
-      showMap: false,
-      latlng: [],
-      keyword: ''
-    };
-    this.resultButton = this.resultButton.bind(this);
-    this.resultCountButton = this.resultCountButton.bind(this);
-    this.keywordBlur = this.keywordBlur.bind(this);
-    this.onKeywordChange = this.onKeywordChange.bind(this);
-    this.formSubmit = this.formSubmit.bind(this);
-    this.correctLatLng = this.correctLatLng.bind(this);
-    this.resetForm = this.resetForm.bind(this);
-  }
-
-  debounce(func, wait, immediate) {
+  debounce = (func, wait) => {
     var timeout;
     return function() {
-      var context = this, args = arguments;
       var later = function() {
         timeout = null;
-        if (!immediate) func.apply(context, args);
+        func.apply(this, arguments);
       };
-      var callNow = immediate && !timeout;
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
-      if (callNow) func.apply(context, args);
     };
-  }
+  };
 
-  componentWillMount () {
-    if(this.props.filters.length === 0) this.props.loadFilters();
-    this.radiusChange = this.debounce(this.radiusChange,200);
-    this.setState({keyword: this.props.searchVars.keyword});
-  }
+  componentWillMount = () => {
+    const { filters, loadFilters, searchVars } = this.props;
 
-  resultButton () {
-    if(this.props.results.length > 0){
-      return <button className="btn-toggle" onClick={() => {
-        this.setState({ showMap: !this.state.showMap}); }
-      }>{this.state.showMap ? 'Show List' : 'Toggle Map'}</button>;
+    if (filters && filters.length === 0) loadFilters();
+    this.radiusChange = this.debounce(this.radiusChange, 200);
+    this.setState({ keyword: searchVars.keyword });
+  };
+
+  resultButton = () => {
+    const { results } = this.props;
+    const { showMap } = this.state;
+
+    if (results.length > 0) {
+      return (
+        <button className="btn-toggle" onClick={e => this.toggleMap(e)}>
+          {showMap ? 'Show List' : 'Toggle Map'}
+        </button>
+      );
     }
-  }
+  };
 
-  resultCountButton () {
-    if(!this.props.itemsLoading && this.props.hasSearched){
-      return <p className="results-desc">
-        {this.props.noSearchVars && <span>No search parameters supplied</span>}
-        {!this.props.noSearchVars && this.resultCountButtonText()}
-        {!this.props.noSearchVars && this.resultButton()}
-      </p>;
-    }
-  }
-
-  resultCountButtonText (){
-    let desc = 'Found '+this.props.results.length+' ';
-    if(this.props.totalResults && this.props.results.length === 100 && this.props.totalResults*1 > 100){
-      desc += 'of '+this.props.totalResults*1+' ';
-    }
-    desc += 'result'+(this.props.totalResults*1 !== 1 ? 's' : '');
-    return desc;
-  }
-
-  keywordBlur(e){
-    if(inputchanged || e.target.value === ''){
-      const clone = {...this.props.searchVars};
-      clone.keyword = e.target.value;
-      clone.addressLatLng = this.correctLatLng();
-      this.props.loadResults(clone);
-    }
-  }
-
-  onKeywordChange(value){
-    this.setState({keyword: value});
-  }
-
-  enterPressed(e) {
-    inputchanged = true;
-    var code = e.keyCode || e.which;
-    if(code === 13) {
-      inputchanged = false;
-      const clone = {...this.props.searchVars};
-      clone.keyword = (e.target.value === '') ? null : e.target.value;
-      clone.addressLatLng = this.correctLatLng();
-      this.props.loadResults(clone);
-    }
-  }
-
-  radiusChange(value){
-    const clone = {...this.props.searchVars};
-    const callback = this.props.loadResults;
-    clone.radius = value*1;
-    setImmediate(function() {
-      callback(clone);
-    });
-  }
-
-  formSubmit(e) {
+  toggleMap = e => {
     e.preventDefault();
-    this.setState({latlng: this.props.searchVars.addressLatLng});
-    const clone = {...this.props.searchVars};
-    clone.addressLatLng = this.correctLatLng();
-    clone.keyword = e.target.keyword.value;
-    this.props.loadResults(clone);
-  }
+    this.setState({ showMap: !this.state.showMap });
+  };
 
-  correctLatLng(){
-    return (this.props.searchVars.addressLatLng === undefined ? this.state.latlng : this.props.searchVars.addressLatLng);
-  }
+  resultCountButton = () => {
+    const { itemsLoading, hasSearched, noSearchVars } = this.props;
 
-  resetForm(){
-    this.setState({latlng: {},keyword: ''});
+    if (!itemsLoading && hasSearched) {
+      return (
+        <p className="results-desc">
+          {noSearchVars ? (
+            <span>No search parameters supplied</span>
+          ) : (
+            <Fragment>
+              {this.resultCountButtonText()}
+              {this.resultButton()}
+            </Fragment>
+          )}
+        </p>
+      );
+    }
+  };
+
+  resultCountButtonText = () => {
+    const { results, totalResults } = this.props;
+    let desc = `Found ${results.length} `;
+
+    if (totalResults && results.length === 100 && totalResults > 100) {
+      desc += `of ${totalResults} `;
+    }
+    desc += `result ${totalResults > 1 ? 's' : ''}`;
+
+    return desc;
+  };
+
+  keywordBlur = e => {
+    const { inputchanged } = this.state;
+
+    if (inputchanged || e.target.value === '') {
+      const searchVars = { ...this.props.searchVars };
+      searchVars.keyword = e.target.value;
+      searchVars.addressLatLng = this.correctLatLng();
+      this.props.loadResults(searchVars);
+    }
+  };
+
+  onKeywordChange = value => {
+    this.setState({ keyword: value });
+  };
+
+  enterPressed = e => {
+    const code = e.keyCode || e.which;
+
+    if (code === 13) {
+      this.setState({
+        inputchanged: false
+      });
+      const searchVars = { ...this.props.searchVars };
+      searchVars.keyword = e.target.value;
+      searchVars.addressLatLng = this.correctLatLng();
+      this.props.loadResults(searchVars);
+    } else {
+      this.setState({
+        inputchanged: true
+      });
+    }
+  };
+
+  radiusChange = value => {
+    const searchVars = { ...this.props.searchVars };
+
+    searchVars.radius = value;
+    setImmediate(function() {
+      this.props.loadResults(searchVars);
+    });
+  };
+
+  formSubmit = e => {
+    e.preventDefault();
+    const searchVars = { ...this.props.searchVars };
+
+    this.setState({ latlng: searchVars.addressLatLng });
+    searchVars.addressLatLng = this.correctLatLng();
+    searchVars.keyword = e.target.keyword.value;
+    this.props.loadResults(searchVars);
+  };
+
+  correctLatLng = () =>
+    this.props.searchVars.addressLatLng || this.state.latlng;
+
+  resetForm = () => {
+    this.setState({ latlng: {}, keyword: '' });
     this.props.loadResults({
       category: '',
       keyword: '',
@@ -136,46 +160,111 @@ class App extends Component {
       addressLatLng: {},
       radius: 50000
     });
-  }
+  };
 
   render() {
+    const {
+      filters,
+      searchVars,
+      loadResults,
+      noSearchVars,
+      itemsLoading,
+      hasSearched,
+      results,
+      changeCategory
+    } = this.props;
+    const { keyword, showMap } = this.state;
+
     return (
       <div className="container-fluid">
-        <Filters filters={this.props.filters} searchVars={this.props.searchVars} loadResults={this.props.loadResults} />
+        <Filters
+          filters={filters}
+          searchVars={searchVars}
+          loadResults={loadResults}
+        />
         <form className="form" onSubmit={e => this.formSubmit(e)}>
-          <input value={this.state.keyword} type="search" name="keyword" onBlur={this.keywordBlur.bind(this)} onKeyPress={this.enterPressed.bind(this)} onChange={e => this.onKeywordChange(e.target.value)} placeholder="Enter topic or organisation" />
-          <AddressFinder noSearchVars={this.props.noSearchVars} loading={this.props.itemsLoading} loadResults={this.props.loadResults} searchVars={this.props.searchVars} radius={this.props.searchVars.radius}/>
-          {this.props.searchVars.addressLatLng && Object.keys(this.props.searchVars.addressLatLng).length !== 0 &&
-            <Proximity handler={this.radiusChange.bind(this)} radius={this.props.searchVars.radius}/>
-          }
+          <input
+            value={keyword}
+            type="search"
+            name="keyword"
+            onBlur={this.keywordBlur.bind(this)}
+            onKeyPress={this.enterPressed.bind(this)}
+            onChange={e => this.onKeywordChange(e.target.value)}
+            placeholder="Enter topic or organisation"
+          />
+          <AddressFinder
+            noSearchVars={noSearchVars}
+            loading={itemsLoading}
+            loadResults={loadResults}
+            searchVars={searchVars}
+            radius={searchVars.radius}
+          />
+          {searchVars.addressLatLng &&
+          Object.keys(searchVars.addressLatLng).length > 0 && (
+            <Proximity
+              handler={this.radiusChange.bind(this)}
+              radius={searchVars.radius}
+            />
+          )}
           <button type="submit">Search</button>
-          {(!this.props.noSearchVars && this.props.hasSearched) && <Route render={({ history,location}) => (<button type="button" onClick={()=> {(location.pathname !== '/' && history.push(''));this.resetForm();}}>Reset form</button>)} />}
+          {!noSearchVars &&
+          hasSearched && (
+            <Route
+              render={({ history, location }) => (
+                <button
+                  type="button"
+                  onClick={() => {
+                    location.pathname !== '/' && history.push('');
+                    this.resetForm();
+                  }}
+                >
+                  Reset form
+                </button>
+              )}
+            />
+          )}
         </form>
-        <div className={'results' + (this.props.itemsLoading ? ' loading' : '')}>
+        <div className={'results' + (itemsLoading ? ' loading' : '')}>
           {this.resultCountButton()}
-          { !this.props.itemsLoading && this.state.showMap && <MapResults className="container-fluid" LatLng={this.props.searchVars.addressLatLng} map_results={this.props.results} />}
-          { !this.props.itemsLoading && !this.state.showMap && this.props.results.map((data,index)=>
-            <LazyLoad height={280} key={index}>
-              <Service results={data} changeCategory={this.props.changeCategory} searchVars={this.props.searchVars} serviceId={data.FSD_ID} loadResults={this.props.loadResults} />
-            </LazyLoad>)}
+          {!itemsLoading &&
+            (showMap ? (
+              <MapResults
+                className="container-fluid"
+                LatLng={searchVars.addressLatLng}
+                map_results={results}
+              />
+            ) : (
+              results.map((data, index) => (
+                <LazyLoad height={280} key={index}>
+                  <Service
+                    results={data}
+                    changeCategory={changeCategory}
+                    searchVars={searchVars}
+                    serviceId={data.FSD_ID}
+                    loadResults={loadResults}
+                  />
+                </LazyLoad>
+              ))
+            ))}
         </div>
-        <Sharebar/>
+        <Sharebar />
       </div>
     );
   }
 }
 
-function mapStateToProps(state,ownProps) {
-  const clone = {...state.searchVars};
-  if(!state.searchVars.category && ownProps.startCategory){
+function mapStateToProps(state, ownProps) {
+  const searchVars = { ...state.searchVars };
+  if (!state.searchVars.category && ownProps.startCategory) {
     /* for some unidentified reason ownProps.startCategory is returning a string */
-    clone.category = (ownProps.startCategory === 'undefined') ? '' : ownProps.startCategory;
+    searchVars.category =
+      ownProps.startCategory === 'undefined' ? '' : ownProps.startCategory;
   }
   return {
     filters: state.filter,
     results: state.results,
     showMap: state.showMap,
-    searchVars: clone,
+    searchVars,
     noSearchVars: state.noSearchVars,
     totalResults: state.totalResults,
     itemsLoading: state.itemsLoading,
