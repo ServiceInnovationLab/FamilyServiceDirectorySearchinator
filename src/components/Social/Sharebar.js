@@ -6,16 +6,16 @@ import '../../styles/Sharebar.css';
 
 class Sharebar extends React.Component {
 
-  render(){
+  render() {
 
     let url = (this.props.url) ? this.props.url : window.location.href;
     let subject = (this.props.subject) ? this.props.subject : 'Whānau%20Services%20in%20your%20area';
     let description = (this.props.description) ? this.props.description : subject;
 
 
-    let mailto = 'mailto:?subject='+subject+'&body='+url;
-    let facebook = 'https://www.facebook.com/sharer/sharer.php?u='+url;
-    let twitter = 'https://twitter.com/home?status='+description+':%20'+url;
+    let mailto = 'mailto:?subject=' + subject + '&body=' + url;
+    let facebook = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
+    let twitter = 'https://twitter.com/home?status=' + description + ':%20' + url;
 
     return (
       <div className="sharebar" aria-label="Sharebar">

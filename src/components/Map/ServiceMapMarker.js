@@ -1,8 +1,8 @@
 import React from 'react';
 import { Marker, Popup } from 'react-leaflet';
 
-const ServiceMapMarker = ( props ) => {
-  let position = {lat: props.record.LATITUDE*1, lng: props.record.LONGITUDE*1};
+const ServiceMapMarker = (props) => {
+  let position = { lat: props.record.LATITUDE * 1, lng: props.record.LONGITUDE * 1 };
   return (
     <div>
       {props.record.LATITUDE && props.record.LONGITUDE &&
