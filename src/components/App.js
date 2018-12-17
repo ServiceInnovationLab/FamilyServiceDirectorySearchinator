@@ -24,6 +24,7 @@ class App extends Component {
     showMap: false,
     latlng: [],
     keyword: '',
+    resultLimit: 10,
     inputchanged: false
   };
 
@@ -84,15 +85,14 @@ class App extends Component {
     }
   };
 
-  resultCountButtonText = () => {
+  resultCountButtonText() {
     const { results, totalResults } = this.props;
-    let desc = `Found ${results.length} `;
-
+    const { resultLimit } = this.state;
+    let desc = `Found ${results.length < resultLimit ? results.length : resultLimit} `;
     if (totalResults && results.length === 100 && totalResults > 100) {
       desc += `of ${totalResults} `;
     }
-    desc += `result ${totalResults > 1 ? 's' : ''}`;
-
+    desc += `result${totalResults > 1 ? 's' : ''}`;
     return desc;
   };
 
@@ -162,6 +162,11 @@ class App extends Component {
     });
   };
 
+  extendResultLimit(e) {
+    e.preventDefault();
+    this.setState({ resultLimit: this.state.resultLimit + 10 });
+  }
+
   render() {
     const {
       filters,
@@ -173,7 +178,7 @@ class App extends Component {
       results,
       changeCategory
     } = this.props;
-    const { keyword, showMap } = this.state;
+    const { keyword, showMap, resultLimit } = this.state;
 
     return (
       <div className="container-fluid">
@@ -234,18 +239,27 @@ class App extends Component {
                 map_results={results}
               />
             ) : (
-              results.map((data, index) => (
-                <LazyLoad height={280} key={index}>
-                  <Service
-                    results={data}
-                    changeCategory={changeCategory}
-                    searchVars={searchVars}
-                    serviceId={data.FSD_ID}
-                    loadResults={loadResults}
-                  />
-                </LazyLoad>
-              ))
+
+            results.map((data, index) => {
+              if (index < resultLimit) {
+                return (
+                  <LazyLoad height={280} key={index}>
+                    <Service
+                      results={data}
+                      changeCategory={changeCategory}
+                      searchVars={searchVars}
+                      serviceId={data.FSD_ID}
+                      loadResults={loadResults}
+                    />
+                  </LazyLoad>
+                );
+              }
+            }
+              )
             ))}
+            {results.length > resultLimit && (
+              <button onClick={e => this.extendResultLimit(e)}>Show More</button>
+            )}
         </div>
         <Sharebar />
       </div>
