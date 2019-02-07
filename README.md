@@ -1,3 +1,10 @@
+# ARCHIVED
+
+This code based was re-written in a new repo.
+
+
+
+
 [![Build Status](https://travis-ci.org/ServiceInnovationLab/FamilyServiceDirectorySearchinator.svg?branch=master)](https://travis-ci.org/ServiceInnovationLab/FamilyServiceDirectorySearchinator)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/ServiceInnovationLab/FamilyServiceDirectorySearchinator.png?columns=all)](https://waffle.io/ServiceInnovationLab/FamilyServiceDirectorySearchinator?utm_source=badge)
 
