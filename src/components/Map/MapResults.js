@@ -8,7 +8,7 @@ export default class MapResults extends Component {
 
     this.state = {
       center: { lat: -41.0, lng: 174.0 },
-      zoom: 12
+      zoom: 12,
     };
 
     this.checkLatLng = this.checkLatLng.bind(this);
@@ -22,8 +22,8 @@ export default class MapResults extends Component {
       this.setState({
         center: {
           lat: map_results[0].LATITUDE,
-          lng: map_results[0].LONGITUDE
-        }
+          lng: map_results[0].LONGITUDE,
+        },
       });
     }
     this.getUserPos();
@@ -35,8 +35,8 @@ export default class MapResults extends Component {
         this.setState({
           center: {
             lat: pos.coords.latitude,
-            lng: pos.coords.longitude
-          }
+            lng: pos.coords.longitude,
+          },
         });
       });
     }
@@ -44,7 +44,7 @@ export default class MapResults extends Component {
 
   checkLatLng() {
     return Object.keys(
-      this.props.LatLng ? this.props.LatLng : { none: 'none' }
+      this.props.LatLng ? this.props.LatLng : { none: 'none' },
     );
   }
 
@@ -55,12 +55,13 @@ export default class MapResults extends Component {
     return (
       <Map center={center} zoom={zoom}>
         <TileLayer
-          attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {map_results.map((record, i) => (
           <ServiceMapMarker key={`marker${i}`} record={record} />
-        ))};
+        ))}
+        ;
       </Map>
     );
   }

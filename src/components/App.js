@@ -21,7 +21,7 @@ class App extends Component {
       showMap: false,
       latlng: [],
       keyword: '',
-      resultLimit: 10
+      resultLimit: 10,
     };
     this.resultButton = this.resultButton.bind(this);
     this.resultCountButton = this.resultCountButton.bind(this);
@@ -87,7 +87,9 @@ class App extends Component {
   resultCountButtonText() {
     const { results, totalResults } = this.props;
     const { resultLimit } = this.state;
-    let desc = `Found ${results.length < resultLimit ? results.length : resultLimit} `;
+    let desc = `Found ${
+      results.length < resultLimit ? results.length : resultLimit
+    } `;
     if (totalResults && results.length === 100 && totalResults > 100) {
       desc += `of ${totalResults} `;
     }
@@ -151,7 +153,7 @@ class App extends Component {
       keyword: '',
       address: '',
       addressLatLng: {},
-      radius: 50000
+      radius: 50000,
     });
   }
 
@@ -169,7 +171,7 @@ class App extends Component {
       itemsLoading,
       hasSearched,
       results,
-      changeCategory
+      changeCategory,
     } = this.props;
     const { keyword, showMap, resultLimit } = this.state;
 
@@ -198,15 +200,14 @@ class App extends Component {
             radius={searchVars.radius}
           />
           {searchVars.addressLatLng &&
-          Object.keys(searchVars.addressLatLng).length !== 0 && (
-            <Proximity
-              handler={this.radiusChange.bind(this)}
-              radius={searchVars.radius}
-            />
-          )}
+            Object.keys(searchVars.addressLatLng).length !== 0 && (
+              <Proximity
+                handler={this.radiusChange.bind(this)}
+                radius={searchVars.radius}
+              />
+            )}
           <button type="submit">Search</button>
-          {!noSearchVars &&
-          hasSearched && (
+          {!noSearchVars && hasSearched && (
             <Route
               render={({ history, location }) => (
                 <button
@@ -224,8 +225,7 @@ class App extends Component {
         </form>
         <div className={'results' + (itemsLoading ? ' loading' : '')}>
           {this.resultCountButton()}
-          {!itemsLoading &&
-          showMap && (
+          {!itemsLoading && showMap && (
             <MapResults
               className="container-fluid"
               LatLng={searchVars.addressLatLng}
@@ -274,8 +274,11 @@ function mapStateToProps(state, ownProps) {
     noSearchVars: state.noSearchVars,
     totalResults: state.totalResults,
     itemsLoading: state.itemsLoading,
-    hasSearched: state.hasSearched
+    hasSearched: state.hasSearched,
   };
 }
 
-export default connect(mapStateToProps, actionCreators)(App);
+export default connect(
+  mapStateToProps,
+  actionCreators,
+)(App);
